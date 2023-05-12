@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sci_space_x/core/providers/models_provider.dart';
 import 'package:sci_space_x/interface/screens/login_screen.dart';
+import 'package:sci_space_x/interface/screens/register_screen.dart';
 
 import 'core/constants/constants.dart';
 import 'core/providers/chats_provider.dart';
 import 'interface/Theme/themes.dart';
+import 'interface/screens/home_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -54,13 +56,12 @@ class _SciSpaceXState extends State<SciSpaceX> {
             color: cardColor,
           ),
         ),
-        // routes: {
-        //   HomePage.id: (context) => const HomePage(),
-        //   UserInfoScreen.id: (context) => const UserInfoScreen(
-        //         user: null,
-        //       ),
-        // },
-        home: const LoginView(),
+        routes: {
+          HomePage.id: (context) => const HomePage(),
+          RegisterScreen.id: (context) => const RegisterScreen(),
+          LoginScreen.id: (context) => const LoginScreen(),
+        },
+        home: const LoginScreen(),
       ),
     );
   }

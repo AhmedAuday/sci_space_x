@@ -2,31 +2,30 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:sci_space_x/interface/Theme/themes.dart';
-import 'package:sci_space_x/interface/screens/register_screen.dart';
+import 'package:sci_space_x/interface/screens/login_screen.dart';
 import 'package:sci_space_x/interface/widgets/custom_text_filedd.dart';
 
 import '../../core/constants/constants.dart';
 import '../../core/custom_clippers/custom_clipping.dart';
 import '../../core/helper/show_snakbar.dart';
-import '../../core/utils/authentication.dart';
 import '../../core/utils/fade_slide_transition.dart';
-import '../../core/utils/my_styles.dart';
 import '../../core/utils/my_theme.dart';
 import '../../core/utils/validators.dart';
-import '../widgets/google_sign_in_button.dart';
+import '../Theme/themes.dart';
 import '../widgets/header.dart';
 import '../widgets/mybutton.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
-  static String id = "loginScreen";
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({Key? key}) : super(key: key);
+
+  static String id = "registerScreen";
+
   @override
   // ignore: library_private_types_in_public_api
-  _LoginScreenState createState() => _LoginScreenState();
+  _RegisterScreenState createState() => _RegisterScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen>
+class _RegisterScreenState extends State<RegisterScreen>
     with TickerProviderStateMixin {
   String? email, password;
   AnimationController? _animationController;
@@ -182,26 +181,7 @@ class _LoginScreenState extends State<LoginScreen>
                     ),
                   ),
                 ),
-                const SizedBox(height: 15),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
-                  child: FadeSlideTransition(
-                    animation: _formElementAnimation!,
-                    additionalOffset: 2 * 10.0,
-                    child: InkWell(
-                      onTap: () {
-                        // Navigator.pushNamed(context, RegisterScreen.id);
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text("Forgot Password?", style: forgotPasswordStyle),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 15),
+                const SizedBox(height: 30),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
                   child: FadeSlideTransition(
@@ -210,11 +190,11 @@ class _LoginScreenState extends State<LoginScreen>
                     child: CustomButton(
                       color: MyTheme.themeColor,
                       textColor: kWhite,
-                      text: 'Login',
+                      text: 'Register',
                       onPressed: () async {
                         if (formKey.currentState!.validate()) {
                           try {
-                            await loginUser();
+                            await registerUser();
 
                             showSnackBar(context, 'Sucssfuly');
                           } on FirebaseAuthException catch (e) {
@@ -238,56 +218,20 @@ class _LoginScreenState extends State<LoginScreen>
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 15,
-                ),
-                FadeSlideTransition(
-                  animation: _formElementAnimation!,
-                  additionalOffset: 2 * 10.0,
-                  child: SizedBox(
-                    child: Text(
-                      "OR",
-                      style: MyThemeData.of(context).title1,
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                FadeSlideTransition(
-                  animation: _formElementAnimation!,
-                  additionalOffset: 2 * 10.0,
-                  child: FutureBuilder(
-                    future: Authentication.initializeFirebase(context: context),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasError) {
-                        return const Text('Error initializing Firebase');
-                      } else if (snapshot.connectionState ==
-                          ConnectionState.done) {
-                        return const GoogleSignInButton();
-                      }
-                      return const CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(
-                          CustomColors.firebaseOrange,
-                        ),
-                      );
-                    },
-                  ),
-                ),
                 const SizedBox(height: 2 * 60.0),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(70, 0, 70, 0),
+                  padding: const EdgeInsets.fromLTRB(90, 0, 70, 0),
                   child: FadeSlideTransition(
                     animation: _formElementAnimation!,
                     additionalOffset: 2 * 10.0,
                     child: InkWell(
                       onTap: () {
-                        Navigator.pushNamed(context, RegisterScreen.id);
+                        Navigator.pushNamed(context, LoginScreen.id);
                       },
                       child: Row(
                         children: [
                           Text(
-                            "Don't have an account? ",
+                            "have an account? ",
                             style: MyThemeData.of(context).subtitle2,
                           ),
                           const SizedBox(width: 3),
@@ -299,7 +243,7 @@ class _LoginScreenState extends State<LoginScreen>
                               // }));
                             },
                             child: Text(
-                              "Sign Up",
+                              "Sign in",
                               style: MyThemeData.of(context).subtitle4,
                             ),
                           )
@@ -316,12 +260,10 @@ class _LoginScreenState extends State<LoginScreen>
     );
   }
 
-  Future<void> loginUser() async {
+  Future<void> registerUser() async {
     var auth = FirebaseAuth.instance;
-    UserCredential user = await auth.signInWithEmailAndPassword(
-      email: email!,
-      password: password!,
-    );
+    UserCredential user = await auth.createUserWithEmailAndPassword(
+        email: email!, password: password!);
   }
 
   fieldFocusChange(
