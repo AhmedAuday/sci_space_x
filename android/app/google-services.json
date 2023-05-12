@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "214547328147",
+    "project_id": "sci-space-x",
+    "storage_bucket": "sci-space-x.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:214547328147:android:4073db50084e5aeac2b166",
+        "android_client_info": {
+          "package_name": "com.example.sci_space_x"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "214547328147-5as2i9euok50l5fl0tog9qdtn2gim6ot.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZNDfX7xTPnF3xsU_Aw6YA8uQgIYpUeIY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "214547328147-5as2i9euok50l5fl0tog9qdtn2gim6ot.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

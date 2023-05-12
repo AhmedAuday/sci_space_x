@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>214547328147-3ka58sj8d0u31fo6buan96dhv415u5js.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.214547328147-3ka58sj8d0u31fo6buan96dhv415u5js</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAUmA2YLZmsHRu_IFiOAGFw7-TrpjZSOkk</string>
+	<key>GCM_SENDER_ID</key>
+	<string>214547328147</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.sciSpacex</string>
+	<key>PROJECT_ID</key>
+	<string>sci-space-x</string>
+	<key>STORAGE_BUCKET</key>
+	<string>sci-space-x.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:214547328147:ios:d49d17c26f60dd14c2b166</string>
+</dict>
+</plist>
