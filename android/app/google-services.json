@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "214547328147-2dh48h9pqq4snlcrdteuu66s827kfi3n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sci_space_x",
+            "certificate_hash": "ebb8469247181b2ecee0678f74cf80054d5e61c0"
+          }
+        },
+        {
           "client_id": "214547328147-5as2i9euok50l5fl0tog9qdtn2gim6ot.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,6 +37,13 @@
             {
               "client_id": "214547328147-5as2i9euok50l5fl0tog9qdtn2gim6ot.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "214547328147-3ka58sj8d0u31fo6buan96dhv415u5js.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.sciSpacex"
+              }
             }
           ]
         }
