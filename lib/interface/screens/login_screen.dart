@@ -212,12 +212,6 @@ class _LoginViewState extends State<LoginView> with TickerProviderStateMixin {
                             await loginUser();
 
                             showSnackBar(context, 'Sucssfuly');
-
-                            // Navigator.pushNamed(
-                            //   context,
-                            //   HomePage.id,
-                            //   arguments: email,
-                            // );
                           } on FirebaseAuthException catch (e) {
                             if (e.code == 'user-not-found') {
                               showSnackBar(
