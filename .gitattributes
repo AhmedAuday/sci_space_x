@@ -1,4 +1,4 @@
-*.cpp linguist-detectable=false
+*.c%2B%2B linguist-detectable=false
 *.html linguist-detectable=false
 *.swift linguist-detectable=false
 *.c linguist-detectable=false
