@@ -1,0 +1,9 @@
+*.cpp linguist-detectable=false
+*.h linguist-detectable=false
+*.hpp linguist-detectable=false
+*.html linguist-detectable=false
+*.swift linguist-detectable=false
+*.kt linguist-detectable=false
+*.c linguist-detectable=false
+*.cmake linguist-detectable=false
+*.rb linguist-detectable=false
