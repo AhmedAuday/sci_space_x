@@ -256,6 +256,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.6.5"
+  kf_drawer:
+    dependency: "direct main"
+    description:
+      name: kf_drawer
+      sha256: "423b29bd332af22196a1f5221129ebc2471726d4bb3307127532f75ab933e6af"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.1"
   lints:
     dependency: transitive
     description:

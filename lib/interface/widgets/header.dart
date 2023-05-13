@@ -7,9 +7,11 @@ import '../../core/utils/my_theme.dart';
 class Header extends StatelessWidget {
   final Animation<double> animation;
   final bool isLogin;
+  final String welcome;
 
   const Header({
     Key? key,
+    required this.welcome,
     required this.animation,
     required this.isLogin,
   }) : super(key: key);
@@ -49,7 +51,7 @@ class Header extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  'Welcome To',
+                  welcome,
                   style: Theme.of(context).textTheme.titleLarge!.copyWith(
                         color: Colors.grey[400],
                         fontWeight: FontWeight.bold,

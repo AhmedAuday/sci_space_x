@@ -4,6 +4,7 @@ String? fieldValidator(String? value) {
   }
   return null;
 }
+
 String? emailValidator(String? value) {
   if (value!.isEmpty) {
     return "Email/Phone is required";

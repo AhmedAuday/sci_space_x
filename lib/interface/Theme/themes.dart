@@ -40,6 +40,7 @@ abstract class MyThemeData {
   Color? primaryText;
   Color? secondaryText;
   Color? iconColor;
+  Color? writeText;
 
   TextStyle get title1 => GoogleFonts.getFont(
         'Poppins',
@@ -78,6 +79,23 @@ abstract class MyThemeData {
         fontWeight: FontWeight.bold,
         fontSize: 13,
       );
+
+  TextStyle get appBarTitle => GoogleFonts.getFont(
+        'Poppins',
+        color: primaryText,
+        fontWeight: FontWeight.w500,
+        fontSize: 18,
+      );
+
+  // TextStyle(fontSize: 17, color: Colors.white, letterSpacing: 0.53)
+
+  TextStyle get appBarTitle2 => GoogleFonts.getFont(
+        'Poppins',
+        color: primaryText,
+        fontWeight: FontWeight.w500,
+        letterSpacing: 0.53,
+        fontSize: 17,
+      );
   TextStyle get bodyText1 => GoogleFonts.getFont(
         'Poppins',
         color: primaryText,
@@ -108,6 +126,7 @@ class DarkModeTheme extends MyThemeData {
   Color? secondaryBackground = const Color(0xff212A3E);
   Color? primaryText = const Color(0xFFDCA329);
   Color? secondaryText = const Color(0xFF25334E);
+  Color? writeText = const Color(0xFFFFFFFF);
   Color? borderColor = const Color(0xFFDCA329);
   Color? iconColor = const Color(0xFFFFFFFF);
 }

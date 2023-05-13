@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:sci_space_x/interface/Theme/themes.dart';
+import 'package:sci_space_x/interface/screens/chat_screen.dart';
 
 import 'package:sci_space_x/interface/screens/login_screen.dart';
 
@@ -55,120 +57,169 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
     return Scaffold(
       backgroundColor: CustomColors.firebaseNavy,
       appBar: AppBar(
-        elevation: 0,
-        backgroundColor: CustomColors.firebaseNavy,
-      ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.only(
-            left: 16.0,
-            right: 16.0,
-            bottom: 20.0,
+        backgroundColor: MyThemeData.of(context).secondaryBackground,
+        centerTitle: true,
+        title: Text(
+          'Welcome',
+          style: MyThemeData.of(context).appBarTitle2,
+        ),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(30),
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+        ),
+        leading: InkWell(
+          onTap: () {},
+          child: const Icon(
+            Icons.subject,
+            color: Colors.white,
+          ), //
+        ),
+        actions: [
+          Row(
             children: [
-              Row(),
-              _user.photoURL != null
-                  ? ClipOval(
-                      child: Material(
-                        color: CustomColors.firebaseGrey.withOpacity(0.3),
-                        child: Image.network(
-                          _user.photoURL!,
-                          fit: BoxFit.fitHeight,
-                        ),
-                      ),
-                    )
-                  : ClipOval(
-                      child: Material(
-                        color: CustomColors.firebaseGrey.withOpacity(0.3),
-                        child: const Padding(
-                          padding: EdgeInsets.all(16.0),
-                          child: Icon(
-                            Icons.person,
-                            size: 60,
-                            color: CustomColors.firebaseGrey,
-                          ),
-                        ),
-                      ),
-                    ),
-              const SizedBox(height: 16.0),
-              const Text(
-                'Hello',
-                style: TextStyle(
-                  color: CustomColors.firebaseGrey,
-                  fontSize: 26,
-                ),
-              ),
-              const SizedBox(height: 8.0),
-              Text(
-                _user.displayName!,
-                style: const TextStyle(
-                  color: CustomColors.firebaseYellow,
-                  fontSize: 26,
-                ),
-              ),
-              const SizedBox(height: 8.0),
-              Text(
-                '( ${_user.email!} )',
-                style: const TextStyle(
-                  color: CustomColors.firebaseOrange,
-                  fontSize: 20,
-                  letterSpacing: 0.5,
-                ),
-              ),
-              const SizedBox(height: 24.0),
-              Text(
-                'You are now signed in using your Google account. To sign out of your account click the "Sign Out" button below.',
-                style: TextStyle(
-                    color: CustomColors.firebaseGrey.withOpacity(0.8),
-                    fontSize: 14,
-                    letterSpacing: 0.2),
-              ),
-              const SizedBox(height: 16.0),
               _isSigningOut
                   ? const CircularProgressIndicator(
                       valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                     )
-                  : ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(
-                          Colors.redAccent,
-                        ),
-                        shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                      ),
-                      onPressed: () async {
-                        setState(() {
-                          _isSigningOut = true;
-                        });
-                        await Authentication.signOut(context: context);
-                        setState(() {
-                          _isSigningOut = false;
-                        });
-                        Navigator.of(context)
-                            .pushReplacement(_routeToSignInScreen());
-                      },
-                      child: const Padding(
-                        padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
-                        child: Text(
-                          'Sign Out',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                            letterSpacing: 2,
-                          ),
-                        ),
+                  : Container(
+                      height: 40,
+                      width: 40,
+                      alignment: Alignment.center,
+                      child: IconButton(
+                        icon: const Icon(Icons.logout),
+                        onPressed: () async {
+                          setState(() {
+                            _isSigningOut = true;
+                          });
+                          await Authentication.signOut(context: context);
+                          setState(() {
+                            _isSigningOut = false;
+                          });
+                          Navigator.of(context)
+                              .pushReplacement(_routeToSignInScreen());
+                        },
                       ),
                     ),
             ],
-          ),
+          )
+        ],
+        bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(110.0),
+            child: Container(
+              padding: const EdgeInsets.only(left: 30, bottom: 20),
+              child: Row(
+                children: [
+                  Stack(
+                    children: [
+                      CircleAvatar(
+                        radius: 32,
+                        backgroundColor: Colors.white,
+                        child: ClipOval(
+                          child: Material(
+                            color: CustomColors.firebaseGrey.withOpacity(0.3),
+                            child: Image.network(
+                              _user.photoURL!,
+                              fit: BoxFit.fitHeight,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(left: 20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          _user.displayName!,
+                          style: MyThemeData.of(context).appBarTitle,
+                        ),
+                        Text(
+                          _user.email.toString(),
+                          style: const TextStyle(
+                            fontSize: 13,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            )),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Row(
+              children: [
+                const SizedBox(width: 8),
+                Expanded(
+                  child: makeCard(
+                    Icons.text_fields_sharp,
+                    "SciSpaceX",
+                    Colors.green.withOpacity(0.5),
+                    () {
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(
+                          builder: (context) => ChatScreen(
+                            user: _user,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                Expanded(
+                  child: makeCard(
+                    Icons.image,
+                    "Image Generation",
+                    Colors.orange.withOpacity(0.5),
+                    () {},
+                  ),
+                ),
+                const SizedBox(width: 8),
+              ],
+            ),
+            const SizedBox(height: 12),
+          ],
         ),
       ),
     );
   }
+}
+
+Widget makeCard(var image, var text, var color, var callback) {
+  return InkWell(
+    onTap: callback,
+    child: Card(
+      color: color,
+      child: Center(
+        child: SizedBox(
+          height: 180,
+          width: 180,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(
+                image,
+                color: Colors.white,
+                size: 44,
+              ),
+              const SizedBox(height: 12),
+              Text(
+                text,
+                style: const TextStyle(color: Colors.white, fontSize: 16),
+              )
+            ],
+          ),
+        ),
+      ),
+    ),
+  );
 }

@@ -37,9 +37,12 @@ class _RegisterScreenState extends State<RegisterScreen>
 
   TextEditingController controllerEmail = TextEditingController();
   TextEditingController controllerPassword = TextEditingController();
-
+  TextEditingController controllerFname = TextEditingController();
+  TextEditingController controllerLname = TextEditingController();
   FocusNode focusEmail = FocusNode();
   FocusNode focusPassword = FocusNode();
+  FocusNode focusFName = FocusNode();
+  FocusNode focusLname = FocusNode();
 
   bool passwordVisible = false;
 
@@ -109,10 +112,51 @@ class _RegisterScreenState extends State<RegisterScreen>
                       ),
                     ),
                     Header(
+                      welcome: 'Create New Account',
                       animation: _headerTextAnimation!,
                       isLogin: true,
                     ),
                   ],
+                ),
+                const SizedBox(height: 15),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+                  child: FadeSlideTransition(
+                    animation: _formElementAnimation!,
+                    additionalOffset: 0.0,
+                    child: CustomFormTextField(
+                      hintText: "First Name",
+                      prifix: const Icon(
+                        Icons.person_2_rounded,
+                        color: Colors.black45,
+                      ),
+                      keyboardType: TextInputType.name,
+                      focusNode: focusFName,
+                      onChanged: (data) async {},
+                      fieldValidator: fieldValidator,
+                      controller: controllerFname,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 15),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+                  child: FadeSlideTransition(
+                    animation: _formElementAnimation!,
+                    additionalOffset: 0.0,
+                    child: CustomFormTextField(
+                      hintText: "Last Name",
+                      prifix: const Icon(
+                        Icons.person_2_outlined,
+                        color: Colors.black45,
+                      ),
+                      keyboardType: TextInputType.name,
+                      focusNode: focusLname,
+                      onChanged: (data) async {},
+                      fieldValidator: fieldValidator,
+                      controller: controllerLname,
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 15),
                 Padding(
@@ -130,12 +174,6 @@ class _RegisterScreenState extends State<RegisterScreen>
                       focusNode: focusEmail,
                       onChanged: (data) async {
                         email = data;
-
-                        // fieldFocusChange(
-                        //   context,
-                        //   focusEmail,
-                        //   focusPassword,
-                        // );
                       },
                       fieldValidator: fieldValidator,
                       controller: controllerEmail,

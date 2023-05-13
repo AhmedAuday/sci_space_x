@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:sci_space_x/interface/Theme/themes.dart';
 import 'package:sci_space_x/interface/screens/register_screen.dart';
 import 'package:sci_space_x/interface/widgets/custom_text_filedd.dart';
-
 import '../../core/constants/constants.dart';
 import '../../core/custom_clippers/custom_clipping.dart';
 import '../../core/helper/show_snakbar.dart';
@@ -110,6 +109,7 @@ class _LoginScreenState extends State<LoginScreen>
                       ),
                     ),
                     Header(
+                      welcome: 'Welcome To',
                       animation: _headerTextAnimation!,
                       isLogin: true,
                     ),

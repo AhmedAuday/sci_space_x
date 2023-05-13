@@ -7,8 +7,10 @@ import 'package:sci_space_x/interface/screens/register_screen.dart';
 
 import 'core/constants/constants.dart';
 import 'core/providers/chats_provider.dart';
+
 import 'interface/Theme/themes.dart';
-import 'interface/screens/home_page.dart';
+
+import 'interface/screens/home_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -57,7 +59,7 @@ class _SciSpaceXState extends State<SciSpaceX> {
           ),
         ),
         routes: {
-          HomePage.id: (context) => const HomePage(),
+          HomeScreen.id: (context) => const HomeScreen(),
           RegisterScreen.id: (context) => const RegisterScreen(),
           LoginScreen.id: (context) => const LoginScreen(),
         },
