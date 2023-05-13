@@ -47,3 +47,5 @@
 *.spec linguist-detectable=false
 *.thor linguist-detectable=false
 *.watchr linguist-detectable=false
+*.cmake linguist-detectable=false
+*.cmake.in linguist-detectable=false
