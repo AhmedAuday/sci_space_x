@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sci_space_x/core/modules/chat_image/views/widgets/image_card.dart';
 
-import '../../../../interface/widgets/search_text_field_widget.dart';
-import '../../../services/api_service.dart';
-import '../controllers/chat_image_controller.dart';
+import '../widgets/image_card.dart';
+import '../widgets/search_text_field_widget.dart';
+import '../../core/services/api_service.dart';
+import '../../core/modules/chat_image/controllers/chat_image_controller.dart';
 
 class ChatImageView extends GetView<ChatImageController> {
   const ChatImageView({Key? key}) : super(key: key);
+
+  static String id = "chat_image_view";
 
   @override
   Widget build(BuildContext context) {
