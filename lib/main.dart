@@ -10,8 +10,6 @@ import 'core/providers/chats_provider.dart';
 
 import 'interface/Theme/themes.dart';
 
-import 'interface/screens/home_screen.dart';
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -59,7 +57,6 @@ class _SciSpaceXState extends State<SciSpaceX> {
           ),
         ),
         routes: {
-          HomeScreen.id: (context) => const HomeScreen(),
           RegisterScreen.id: (context) => const RegisterScreen(),
           LoginScreen.id: (context) => const LoginScreen(),
         },
