@@ -80,6 +80,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   itemCount: chatProvider.getChatList.length, //chatList.length,
                   itemBuilder: (context, index) {
                     return ChatWidget(
+                      userIMG: _user.photoURL!,
                       msg: chatProvider
                           .getChatList[index].msg, // chatList[index].msg,
                       chatIndex: chatProvider.getChatList[index]

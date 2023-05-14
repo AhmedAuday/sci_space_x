@@ -1,18 +1,19 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
-
 import 'package:flutter/material.dart';
+import 'package:sci_space_x/interface/widgets/text_widget.dart';
 
 import '../../core/constants/constants.dart';
 import '../../core/services/assets_manager.dart';
-import 'text_widget.dart';
 
 class ChatWidget extends StatelessWidget {
-  const ChatWidget(
-      {super.key,
-      required this.msg,
-      required this.chatIndex,
-      this.shouldAnimate = false});
-
+  const ChatWidget({
+    super.key,
+    required this.userIMG,
+    required this.msg,
+    required this.chatIndex,
+    this.shouldAnimate = false,
+  });
+  final String userIMG;
   final String msg;
   final int chatIndex;
   final bool shouldAnimate;
@@ -27,13 +28,17 @@ class ChatWidget extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Image.asset(
-                  chatIndex == 0
-                      ? AssetsManager.userImage
-                      : AssetsManager.botImage,
-                  height: 30,
-                  width: 30,
-                ),
+                chatIndex == 0
+                    ? Image.network(
+                        userIMG,
+                        height: 30,
+                        width: 30,
+                      )
+                    : Image.asset(
+                        AssetsManager.botImage,
+                        height: 30,
+                        width: 30,
+                      ),
                 const SizedBox(
                   width: 8,
                 ),
@@ -62,9 +67,10 @@ class ChatWidget extends StatelessWidget {
                           : Text(
                               msg.trim(),
                               style: const TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 16),
+                                color: Colors.white,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 16,
+                              ),
                             ),
                 ),
                 chatIndex == 0
