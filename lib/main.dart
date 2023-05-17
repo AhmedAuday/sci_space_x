@@ -9,7 +9,6 @@ import 'core/constants/constants.dart';
 import 'core/providers/chats_provider.dart';
 
 import 'interface/Theme/themes.dart';
-import 'interface/screens/chat_image_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -58,7 +57,7 @@ class _SciSpaceXState extends State<SciSpaceX> {
           ),
         ),
         routes: {
-          ChatImageView.id: (context) => const ChatImageView(),
+          // ChatImageView.id: (context) => const ChatImageView(),
           RegisterScreen.id: (context) => const RegisterScreen(),
           LoginScreen.id: (context) => const LoginScreen(),
         },

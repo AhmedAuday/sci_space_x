@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
+import 'package:sci_space_x/interface/screens/user_page.dart';
 
 import '../../core/constants/constants.dart';
 import '../../core/providers/chats_provider.dart';
@@ -26,24 +27,45 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  bool _isTyping = false;
-  late User _user;
-
+  bool isTyping = false;
+  late User user;
+  String imgurl = "https://yourimageshare.com/ib/YevOaEM0Fj";
   late TextEditingController textEditingController;
-  late ScrollController _listScrollController;
+  late ScrollController listScrollController;
   late FocusNode focusNode;
   @override
   void initState() {
-    _user = widget._user;
-    _listScrollController = ScrollController();
+    user = widget._user;
+    listScrollController = ScrollController();
     textEditingController = TextEditingController();
     focusNode = FocusNode();
     super.initState();
   }
 
+  Route _routeToUserScreenFrom() {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => UserInfoScreen(
+        user: user,
+      ),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        var begin = const Offset(-1.0, 0.0);
+        var end = Offset.zero;
+        var curve = Curves.ease;
+
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      },
+    );
+  }
+
   @override
   void dispose() {
-    _listScrollController.dispose();
+    listScrollController.dispose();
     textEditingController.dispose();
     focusNode.dispose();
     super.dispose();
@@ -61,8 +83,14 @@ class _ChatScreenState extends State<ChatScreen> {
           padding: const EdgeInsets.all(8.0),
           child: Image.asset(AssetsManager.openaiLogo),
         ),
-        title: const Text("ChatGPT"),
+        title: const Text("SciSpaceX"),
         actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).pushReplacement(_routeToUserScreenFrom());
+            },
+            icon: const Icon(Icons.arrow_back, color: Colors.white),
+          ),
           IconButton(
             onPressed: () async {
               await Services.showModalSheet(context: context);
@@ -76,11 +104,11 @@ class _ChatScreenState extends State<ChatScreen> {
           children: [
             Flexible(
               child: ListView.builder(
-                  controller: _listScrollController,
+                  controller: listScrollController,
                   itemCount: chatProvider.getChatList.length, //chatList.length,
                   itemBuilder: (context, index) {
                     return ChatWidget(
-                      userIMG: _user.photoURL!,
+                      userIMG: user.photoURL == null ? imgurl : user.photoURL!,
                       msg: chatProvider
                           .getChatList[index].msg, // chatList[index].msg,
                       chatIndex: chatProvider.getChatList[index]
@@ -90,7 +118,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     );
                   }),
             ),
-            if (_isTyping) ...[
+            if (isTyping) ...[
               const SpinKitThreeBounce(
                 color: Colors.white,
                 size: 18,
@@ -145,16 +173,18 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   void scrollListToEND() {
-    _listScrollController.animateTo(
-        _listScrollController.position.maxScrollExtent,
-        duration: const Duration(seconds: 2),
-        curve: Curves.easeOut);
+    listScrollController.animateTo(
+      listScrollController.position.maxScrollExtent,
+      duration: const Duration(seconds: 2),
+      curve: Curves.easeOut,
+    );
   }
 
-  Future<void> sendMessageFCT(
-      {required ModelsProvider modelsProvider,
-      required ChatProvider chatProvider}) async {
-    if (_isTyping) {
+  Future<void> sendMessageFCT({
+    required ModelsProvider modelsProvider,
+    required ChatProvider chatProvider,
+  }) async {
+    if (isTyping) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: TextWidget(
@@ -178,19 +208,19 @@ class _ChatScreenState extends State<ChatScreen> {
     }
     try {
       String msg = textEditingController.text;
+      String texts = 'hello. world!';
+
       setState(() {
-        _isTyping = true;
-        // chatList.add(ChatModel(msg: textEditingController.text, chatIndex: 0));
+        isTyping = true;
         chatProvider.addUserMessage(msg: msg);
         textEditingController.clear();
         focusNode.unfocus();
       });
       await chatProvider.sendMessageAndGetAnswers(
-          msg: msg, chosenModelId: modelsProvider.getCurrentModel);
-      // chatList.addAll(await ApiService.sendMessage(
-      //   message: textEditingController.text,
-      //   modelId: modelsProvider.getCurrentModel,
-      // ));
+        msg: msg,
+        chosenModelId: modelsProvider.getCurrentModel,
+      );
+
       setState(() {});
     } catch (error) {
       log("error $error");
@@ -206,7 +236,7 @@ class _ChatScreenState extends State<ChatScreen> {
       setState(
         () {
           scrollListToEND();
-          _isTyping = false;
+          isTyping = false;
         },
       );
     }

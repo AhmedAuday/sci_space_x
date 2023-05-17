@@ -4,9 +4,9 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-import '../../../constants/api_consts.dart';
-import '../../../models/image_generation_model.dart';
-import '../../../services/api_service.dart';
+import '../constants/api_consts.dart';
+import '../models/image_generation_model.dart';
+import '../services/api_service.dart';
 
 class ChatImageController extends GetxController {
   //TODO: Implement ChatImageController
@@ -24,8 +24,8 @@ class ChatImageController extends GetxController {
     try {
       // ['256x256', '512x512', '1024x1024']
       Map<String, dynamic> rowParams = {
-        "n": 10,
-        "size": "256x256",
+        "n": 5,
+        "size": "1024x1024",
         "prompt": query,
       };
 
@@ -41,13 +41,16 @@ class ChatImageController extends GetxController {
         images = ImageGenerationModel.fromJson(json.decode(response.body)).data;
         print("succccccccccccccccccccccccc ");
         state.value = ApiState.success;
+      } else if (response.statusCode == 429) {
+        print("Rate limit exceeded");
+        state.value = ApiState.rateLimitExceeded;
       } else {
         print("Errorrrrrrrrrrrrrrr  ${response.body}");
         // throw ServerException(message: "Image Generation Server Exception");
         state.value = ApiState.error;
       }
     } catch (e) {
-      print("Errorrrrrrrrrrrrrrr  ");
+      print("Errorrrrrrrrrrrrrrr");
     } finally {
       // searchTextController.clear();
       update();
@@ -60,3 +63,5 @@ class ChatImageController extends GetxController {
     searchTextController.clear();
   }
 }
+
+enum ApiState { loading, success, notFound, error, rateLimitExceeded }

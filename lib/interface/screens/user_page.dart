@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:sci_space_x/interface/Theme/themes.dart';
 import 'package:sci_space_x/interface/screens/chat_screen.dart';
 
@@ -7,6 +8,8 @@ import 'package:sci_space_x/interface/screens/login_screen.dart';
 
 import '../../core/constants/constants.dart';
 import '../../core/utils/authentication.dart';
+import 'chat_image_view.dart';
+import 'edit_profile_screen.dart';
 
 class UserInfoScreen extends StatefulWidget {
   const UserInfoScreen({Key? key, required User user})
@@ -69,7 +72,9 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
           ),
         ),
         leading: InkWell(
-          onTap: () {},
+          onTap: () {
+            setState(() {});
+          },
           child: const Icon(
             Icons.subject,
             color: Colors.white,
@@ -118,11 +123,29 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                         child: ClipOval(
                           child: Material(
                             color: CustomColors.firebaseGrey.withOpacity(0.3),
-                            child: Image.network(
-                              _user.photoURL!,
-                              fit: BoxFit.fitHeight,
-                            ),
+                            child: _user.photoURL == null
+                                ? const Icon(Icons.person_2_outlined)
+                                : Image.network(
+                                    _user.photoURL!,
+                                    fit: BoxFit.fitHeight,
+                                  ),
                           ),
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 20,
+                        child: IconButton(
+                          icon: const Icon(Icons.edit),
+                          color: MyThemeData.of(context).primaryText,
+                          onPressed: () {
+                            Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                builder: (context) => EditProfilePage(
+                                  user: _user,
+                                ),
+                              ),
+                            );
+                          },
                         ),
                       ),
                     ],
@@ -133,7 +156,10 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          _user.displayName!,
+                          _user.displayName == null
+                              ? "no name "
+                              : _user.displayName!
+                            ..capitalizeFirst,
                           style: MyThemeData.of(context).appBarTitle,
                         ),
                         Text(
@@ -179,7 +205,15 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                     Icons.image,
                     "Image Generation",
                     Colors.orange.withOpacity(0.5),
-                    () {},
+                    () {
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(
+                          builder: (context) => ChatImageView(
+                            user: _user,
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 ),
                 const SizedBox(width: 8),

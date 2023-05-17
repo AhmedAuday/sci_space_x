@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sci_space_x/interface/Theme/themes.dart';
@@ -14,7 +16,7 @@ class GoogleSignInButton extends StatefulWidget {
 
 class _GoogleSignInButtonState extends State<GoogleSignInButton> {
   bool _isSigningIn = false;
-
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -45,13 +47,28 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
                 });
 
                 if (user != null) {
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (context) => UserInfoScreen(
-                        user: user,
+                  String email = user.email!;
+
+                  final List<String> signInMethods =
+                      await _auth.fetchSignInMethodsForEmail(email);
+
+                  if (signInMethods.isEmpty) {
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) => UserInfoScreen(
+                          user: user,
+                        ),
                       ),
-                    ),
-                  );
+                    );
+                  } else {
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) => UserInfoScreen(
+                          user: user,
+                        ),
+                      ),
+                    );
+                  }
                 }
               },
               child: Padding(

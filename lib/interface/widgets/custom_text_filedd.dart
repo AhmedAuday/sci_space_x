@@ -7,13 +7,14 @@ import '../../core/utils/my_theme.dart';
 class CustomFormTextField extends StatelessWidget {
   String? hintText;
   Function(String)? onChanged;
-  Function(String)? fieldValidator;
-  FocusNode focusNode;
-  TextInputType keyboardType;
+  String? Function(String?)? fieldValidator;
+
+  FocusNode? focusNode;
+  TextInputType? keyboardType;
 
   bool? obs;
-  TextEditingController controller;
-  Widget prifix;
+  TextEditingController? controller;
+  Widget? prifix;
   void Function(String)? onSubmite;
   Widget? suffixIcon;
 
@@ -21,14 +22,14 @@ class CustomFormTextField extends StatelessWidget {
     Key? key,
     this.suffixIcon,
     this.onSubmite,
-    required this.prifix,
-    required this.keyboardType,
-    required this.focusNode,
+    this.prifix,
+    this.keyboardType,
+    this.focusNode,
     this.hintText,
     this.onChanged,
     this.fieldValidator,
     this.obs = false,
-    required this.controller,
+    this.controller,
   }) : super(key: key);
 
   @override
@@ -38,12 +39,7 @@ class CustomFormTextField extends StatelessWidget {
       controller: controller,
       obscureText: obs!,
       focusNode: focusNode,
-      validator: (data) {
-        if (data!.isEmpty) {
-          return 'Field is required';
-        }
-        return null;
-      },
+      validator: fieldValidator,
       keyboardType: keyboardType,
       onChanged: onChanged,
       onFieldSubmitted: onSubmite,

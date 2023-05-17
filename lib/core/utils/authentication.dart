@@ -33,6 +33,14 @@ class Authentication {
           ),
         ),
       );
+
+      // Navigator.of(context).pushReplacement(
+      //   MaterialPageRoute(
+      //     builder: (context) => CreateAccountGoogle(
+      //       user: user,
+      //     ),
+      //   ),
+      // );
     }
 
     return firebaseApp;

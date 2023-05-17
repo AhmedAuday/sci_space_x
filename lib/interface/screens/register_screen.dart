@@ -3,6 +3,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sci_space_x/interface/screens/login_screen.dart';
+import 'package:sci_space_x/interface/screens/user_page.dart';
 import 'package:sci_space_x/interface/widgets/custom_text_filedd.dart';
 
 import '../../core/constants/constants.dart';
@@ -27,7 +28,8 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen>
     with TickerProviderStateMixin {
-  String? email, password;
+  String? email, password, Fname, Lname;
+
   AnimationController? _animationController;
   Animation<double>? _headerTextAnimation;
   Animation<double>? _formElementAnimation;
@@ -132,7 +134,9 @@ class _RegisterScreenState extends State<RegisterScreen>
                       ),
                       keyboardType: TextInputType.name,
                       focusNode: focusFName,
-                      onChanged: (data) async {},
+                      onChanged: (data) async {
+                        Fname = data;
+                      },
                       fieldValidator: fieldValidator,
                       controller: controllerFname,
                     ),
@@ -152,7 +156,9 @@ class _RegisterScreenState extends State<RegisterScreen>
                       ),
                       keyboardType: TextInputType.name,
                       focusNode: focusLname,
-                      onChanged: (data) async {},
+                      onChanged: (data) async {
+                        Lname = data;
+                      },
                       fieldValidator: fieldValidator,
                       controller: controllerLname,
                     ),
@@ -175,7 +181,7 @@ class _RegisterScreenState extends State<RegisterScreen>
                       onChanged: (data) async {
                         email = data;
                       },
-                      fieldValidator: fieldValidator,
+                      fieldValidator: emailValidator,
                       controller: controllerEmail,
                     ),
                   ),
@@ -216,6 +222,7 @@ class _RegisterScreenState extends State<RegisterScreen>
                               ),
                       ),
                       obs: obs,
+                      fieldValidator: fieldValidator,
                     ),
                   ),
                 ),
@@ -232,7 +239,14 @@ class _RegisterScreenState extends State<RegisterScreen>
                       onPressed: () async {
                         if (formKey.currentState!.validate()) {
                           try {
-                            await registerUser();
+                            User userCredential = await registerUser();
+                            Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                builder: (context) => UserInfoScreen(
+                                  user: userCredential,
+                                ),
+                              ),
+                            );
 
                             showSnackBar(context, 'Sucssfuly');
                           } on FirebaseAuthException catch (e) {
@@ -298,10 +312,15 @@ class _RegisterScreenState extends State<RegisterScreen>
     );
   }
 
-  Future<void> registerUser() async {
+  Future<User> registerUser() async {
     var auth = FirebaseAuth.instance;
     UserCredential user = await auth.createUserWithEmailAndPassword(
         email: email!, password: password!);
+    String fullName = "$Fname $Lname";
+
+    final userP = user.user;
+    await userP!.updateDisplayName(fullName);
+    return user.user!;
   }
 
   fieldFocusChange(

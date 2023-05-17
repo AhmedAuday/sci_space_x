@@ -66,20 +66,6 @@ class SearchTextFieldWidget extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(width: 5),
-          InkWell(
-            onTap: onTap,
-            child: Container(
-              decoration: BoxDecoration(
-                  color: color, borderRadius: BorderRadius.circular(40)),
-              padding: const EdgeInsets.all(10),
-              child: const Icon(
-                Icons.send,
-                color: Colors.white,
-              ),
-            ),
-          ),
-          const SizedBox(width: 6)
         ],
       ),
     );

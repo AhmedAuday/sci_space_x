@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sci_space_x/interface/Theme/themes.dart';
 import 'package:sci_space_x/interface/screens/register_screen.dart';
+import 'package:sci_space_x/interface/screens/user_page.dart';
 import 'package:sci_space_x/interface/widgets/custom_text_filedd.dart';
 import '../../core/constants/constants.dart';
 import '../../core/custom_clippers/custom_clipping.dart';
@@ -27,7 +28,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen>
     with TickerProviderStateMixin {
-  String? email, password;
+  String? email, password, Fname, Lname;
   AnimationController? _animationController;
   Animation<double>? _headerTextAnimation;
   Animation<double>? _formElementAnimation;
@@ -52,6 +53,13 @@ class _LoginScreenState extends State<LoginScreen>
       vsync: this,
       duration: kLoginAnimationDuration,
     );
+  }
+
+  String? formVal(data) {
+    if (data!.isEmpty) {
+      return 'Field is required';
+    }
+    return null;
   }
 
   @override
@@ -131,14 +139,8 @@ class _LoginScreenState extends State<LoginScreen>
                       focusNode: focusEmail,
                       onChanged: (data) async {
                         email = data;
-
-                        // fieldFocusChange(
-                        //   context,
-                        //   focusEmail,
-                        //   focusPassword,
-                        // );
                       },
-                      fieldValidator: fieldValidator,
+                      fieldValidator: emailValidator,
                       controller: controllerEmail,
                     ),
                   ),
@@ -179,6 +181,7 @@ class _LoginScreenState extends State<LoginScreen>
                               ),
                       ),
                       obs: obs,
+                      fieldValidator: fieldValidator,
                     ),
                   ),
                 ),
@@ -214,8 +217,14 @@ class _LoginScreenState extends State<LoginScreen>
                       onPressed: () async {
                         if (formKey.currentState!.validate()) {
                           try {
-                            await loginUser();
-
+                            User userCredential = await loginUser();
+                            Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                builder: (context) => UserInfoScreen(
+                                  user: userCredential,
+                                ),
+                              ),
+                            );
                             showSnackBar(context, 'Sucssfuly');
                           } on FirebaseAuthException catch (e) {
                             if (e.code == 'user-not-found') {
@@ -292,12 +301,7 @@ class _LoginScreenState extends State<LoginScreen>
                           ),
                           const SizedBox(width: 3),
                           GestureDetector(
-                            onTap: () {
-                              // Navigator.pushReplacement(context,
-                              //     MaterialPageRoute(builder: (context) {
-                              //   return const Register();
-                              // }));
-                            },
+                            onTap: () {},
                             child: Text(
                               "Sign Up",
                               style: MyThemeData.of(context).subtitle4,
@@ -316,12 +320,13 @@ class _LoginScreenState extends State<LoginScreen>
     );
   }
 
-  Future<void> loginUser() async {
+  Future<User> loginUser() async {
     var auth = FirebaseAuth.instance;
     UserCredential user = await auth.signInWithEmailAndPassword(
       email: email!,
       password: password!,
     );
+    return user.user!;
   }
 
   fieldFocusChange(
