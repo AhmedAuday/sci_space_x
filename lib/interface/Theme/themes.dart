@@ -92,7 +92,7 @@ abstract class MyThemeData {
   TextStyle get appBarTitle2 => GoogleFonts.getFont(
         'Poppins',
         color: primaryText,
-        fontWeight: FontWeight.w500,
+        fontWeight: FontWeight.w700,
         letterSpacing: 0.53,
         fontSize: 17,
       );

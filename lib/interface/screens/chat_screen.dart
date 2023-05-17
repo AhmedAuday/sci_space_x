@@ -4,12 +4,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
+import 'package:sci_space_x/interface/Theme/themes.dart';
 import 'package:sci_space_x/interface/screens/user_page.dart';
 
-import '../../core/constants/constants.dart';
 import '../../core/providers/chats_provider.dart';
 import '../../core/providers/models_provider.dart';
-import '../../core/services/assets_manager.dart';
 import '../../core/services/services.dart';
 import '../widgets/chat_widget.dart';
 import '../widgets/text_widget.dart';
@@ -76,97 +75,101 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     final modelsProvider = Provider.of<ModelsProvider>(context);
     final chatProvider = Provider.of<ChatProvider>(context);
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 2,
-        leading: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Image.asset(AssetsManager.openaiLogo),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          elevation: 2,
+          leading: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Image.asset("assets/images/logo1.jpg"),
+          ),
+          title: const Text("SciSpaceX"),
+          actions: [
+            IconButton(
+              onPressed: () {
+                Navigator.of(context).pushReplacement(_routeToUserScreenFrom());
+              },
+              icon: const Icon(Icons.arrow_back, color: Colors.white),
+            ),
+            IconButton(
+              onPressed: () async {
+                await Services.showModalSheet(context: context);
+              },
+              icon: const Icon(Icons.more_vert_rounded, color: Colors.white),
+            ),
+          ],
         ),
-        title: const Text("SciSpaceX"),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.of(context).pushReplacement(_routeToUserScreenFrom());
-            },
-            icon: const Icon(Icons.arrow_back, color: Colors.white),
-          ),
-          IconButton(
-            onPressed: () async {
-              await Services.showModalSheet(context: context);
-            },
-            icon: const Icon(Icons.more_vert_rounded, color: Colors.white),
-          ),
-        ],
-      ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            Flexible(
-              child: ListView.builder(
-                  controller: listScrollController,
-                  itemCount: chatProvider.getChatList.length, //chatList.length,
-                  itemBuilder: (context, index) {
-                    return ChatWidget(
-                      userIMG: user.photoURL == null ? imgurl : user.photoURL!,
-                      msg: chatProvider
-                          .getChatList[index].msg, // chatList[index].msg,
-                      chatIndex: chatProvider.getChatList[index]
-                          .chatIndex, //chatList[index].chatIndex,
-                      shouldAnimate:
-                          chatProvider.getChatList.length - 1 == index,
-                    );
-                  }),
-            ),
-            if (isTyping) ...[
-              const SpinKitThreeBounce(
-                color: Colors.white,
-                size: 18,
+        body: SafeArea(
+          child: Column(
+            children: [
+              Flexible(
+                child: ListView.builder(
+                    controller: listScrollController,
+                    itemCount:
+                        chatProvider.getChatList.length, //chatList.length,
+                    itemBuilder: (context, index) {
+                      return ChatWidget(
+                        userIMG:
+                            user.photoURL == null ? imgurl : user.photoURL!,
+                        msg: chatProvider
+                            .getChatList[index].msg, // chatList[index].msg,
+                        chatIndex: chatProvider.getChatList[index]
+                            .chatIndex, //chatList[index].chatIndex,
+                        shouldAnimate:
+                            chatProvider.getChatList.length - 1 == index,
+                      );
+                    }),
               ),
-            ],
-            const SizedBox(
-              height: 15,
-            ),
-            Material(
-              color: cardColor,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        focusNode: focusNode,
-                        style: const TextStyle(color: Colors.white),
-                        controller: textEditingController,
-                        onSubmitted: (value) async {
+              if (isTyping) ...[
+                const SpinKitThreeBounce(
+                  color: Colors.white,
+                  size: 18,
+                ),
+              ],
+              const SizedBox(
+                height: 15,
+              ),
+              Material(
+                color: MyThemeData.of(context).secondaryBackground,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          focusNode: focusNode,
+                          style: const TextStyle(color: Colors.white),
+                          controller: textEditingController,
+                          onSubmitted: (value) async {
+                            await sendMessageFCT(
+                              modelsProvider: modelsProvider,
+                              chatProvider: chatProvider,
+                            );
+                          },
+                          decoration: const InputDecoration.collapsed(
+                            hintText: "How can I help you",
+                            hintStyle: TextStyle(color: Colors.grey),
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () async {
                           await sendMessageFCT(
                             modelsProvider: modelsProvider,
                             chatProvider: chatProvider,
                           );
                         },
-                        decoration: const InputDecoration.collapsed(
-                          hintText: "How can I help you",
-                          hintStyle: TextStyle(color: Colors.grey),
+                        icon: const Icon(
+                          Icons.send,
+                          color: Colors.white,
                         ),
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () async {
-                        await sendMessageFCT(
-                          modelsProvider: modelsProvider,
-                          chatProvider: chatProvider,
-                        );
-                      },
-                      icon: const Icon(
-                        Icons.send,
-                        color: Colors.white,
-                      ),
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -208,7 +211,6 @@ class _ChatScreenState extends State<ChatScreen> {
     }
     try {
       String msg = textEditingController.text;
-      String texts = 'hello. world!';
 
       setState(() {
         isTyping = true;
