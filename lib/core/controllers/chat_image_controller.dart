@@ -9,9 +9,8 @@ import '../models/image_generation_model.dart';
 import '../services/api_service.dart';
 
 class ChatImageController extends GetxController {
-  //TODO: Implement ChatImageController
-
   List<ImageGenerationData> images = [];
+  TextEditingController searchTextController = TextEditingController();
 
   var state = ApiState.notFound.obs;
 
@@ -24,7 +23,7 @@ class ChatImageController extends GetxController {
     try {
       // ['256x256', '512x512', '1024x1024']
       Map<String, dynamic> rowParams = {
-        "n": 5,
+        "n": 1,
         "size": "1024x1024",
         "prompt": query,
       };
@@ -39,25 +38,23 @@ class ChatImageController extends GetxController {
 
       if (response.statusCode == 200) {
         images = ImageGenerationModel.fromJson(json.decode(response.body)).data;
-        print("succccccccccccccccccccccccc ");
+        print("image generation generated successfully");
         state.value = ApiState.success;
       } else if (response.statusCode == 429) {
         print("Rate limit exceeded");
         state.value = ApiState.rateLimitExceeded;
       } else {
-        print("Errorrrrrrrrrrrrrrr  ${response.body}");
+        print("Error ${response.body}");
         // throw ServerException(message: "Image Generation Server Exception");
         state.value = ApiState.error;
       }
     } catch (e) {
-      print("Errorrrrrrrrrrrrrrr");
+      print("Error");
     } finally {
-      // searchTextController.clear();
+      searchTextController.clear();
       update();
     }
   }
-
-  TextEditingController searchTextController = TextEditingController();
 
   clearTextField() {
     searchTextController.clear();
