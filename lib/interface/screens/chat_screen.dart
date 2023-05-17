@@ -89,7 +89,7 @@ class _ChatScreenState extends State<ChatScreen> {
               onPressed: () {
                 Navigator.of(context).pushReplacement(_routeToUserScreenFrom());
               },
-              icon: const Icon(Icons.arrow_back, color: Colors.white),
+              icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
             ),
             IconButton(
               onPressed: () async {

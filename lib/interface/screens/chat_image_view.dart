@@ -56,89 +56,92 @@ class _ChatImageViewState extends State<ChatImageView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.orange.withOpacity(0.8),
-        title: const Text('Ai Images Generator'),
-        centerTitle: true,
-        leading: IconButton(
-          onPressed: () {
-            if (_controller.state.value != ApiState.loading) {
-              Navigator.of(context).pushReplacement(_routeToUserScreenFromr());
-            }
-          },
-          icon: const Icon(Icons.arrow_back_ios),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.orange.withOpacity(0.8),
+          title: const Text('Images Generator'),
+          centerTitle: true,
+          leading: IconButton(
+            onPressed: () {
+              if (_controller.state.value != ApiState.loading) {
+                Navigator.of(context)
+                    .pushReplacement(_routeToUserScreenFromr());
+              }
+            },
+            icon: const Icon(Icons.arrow_back_ios),
+          ),
         ),
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: AnimatedBuilder(
+        body: Column(
+          children: [
+            Expanded(
+              child: AnimatedBuilder(
+                animation: _controller,
+                builder: (context, _) {
+                  return Center(
+                    child: _controller.state.value == ApiState.loading
+                        ? const CircularProgressIndicator()
+                        : _controller.state.value == ApiState.success
+                            ? ImageCard(images: _controller.images)
+                            : _controller.state.value == ApiState.notFound
+                                ? const Text(
+                                    "Search whatever you want.",
+                                    textAlign: TextAlign.center,
+                                  )
+                                : const Text(
+                                    "Image Generation Failed!",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(height: 2),
+                                  ),
+                  );
+                },
+              ),
+            ),
+            const SizedBox(height: 8),
+            AnimatedBuilder(
               animation: _controller,
               builder: (context, _) {
-                return Center(
-                  child: _controller.state.value == ApiState.loading
-                      ? const CircularProgressIndicator()
-                      : _controller.state.value == ApiState.success
-                          ? ImageCard(images: _controller.images)
-                          : _controller.state.value == ApiState.notFound
-                              ? const Text(
-                                  "Search whatever you want.",
-                                  textAlign: TextAlign.center,
-                                )
-                              : const Text(
-                                  "Image Generation Failed!",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(height: 2),
-                                ),
+                return Row(
+                  children: [
+                    Expanded(
+                      child: SearchTextFieldWidget(
+                        color: Colors.orange.withOpacity(0.8),
+                        textEditingController: _controller.searchTextController,
+                      ),
+                    ),
+                    const SizedBox(width: 5),
+                    InkWell(
+                      onTap: _controller.state.value == ApiState.loading
+                          ? null
+                          : () {
+                              _controller.getGenerateImages(
+                                _controller.searchTextController.text,
+                              );
+                              FocusScope.of(context)
+                                  .unfocus(); // Remove focus from the text field
+                            },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.amber,
+                          borderRadius: BorderRadius.circular(40),
+                        ),
+                        padding: const EdgeInsets.all(10),
+                        child: _controller.state.value == ApiState.loading
+                            ? const CircularProgressIndicator()
+                            : const Icon(
+                                Icons.send,
+                                color: Colors.white,
+                              ),
+                      ),
+                    ),
+                    const SizedBox(width: 6)
+                  ],
                 );
               },
             ),
-          ),
-          const SizedBox(height: 8),
-          AnimatedBuilder(
-            animation: _controller,
-            builder: (context, _) {
-              return Row(
-                children: [
-                  Expanded(
-                    child: SearchTextFieldWidget(
-                      color: Colors.orange.withOpacity(0.8),
-                      textEditingController: _controller.searchTextController,
-                    ),
-                  ),
-                  const SizedBox(width: 5),
-                  InkWell(
-                    onTap: _controller.state.value == ApiState.loading
-                        ? null
-                        : () {
-                            _controller.getGenerateImages(
-                              _controller.searchTextController.text,
-                            );
-                            FocusScope.of(context)
-                                .unfocus(); // Remove focus from the text field
-                          },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.amber,
-                        borderRadius: BorderRadius.circular(40),
-                      ),
-                      padding: const EdgeInsets.all(10),
-                      child: _controller.state.value == ApiState.loading
-                          ? const CircularProgressIndicator()
-                          : const Icon(
-                              Icons.send,
-                              color: Colors.white,
-                            ),
-                    ),
-                  ),
-                  const SizedBox(width: 6)
-                ],
-              );
-            },
-          ),
-          const SizedBox(height: 12),
-        ],
+            const SizedBox(height: 12),
+          ],
+        ),
       ),
     );
   }

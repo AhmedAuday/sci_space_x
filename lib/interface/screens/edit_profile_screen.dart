@@ -97,7 +97,7 @@ class _EditProfilePageState extends State<EditProfilePage>
           elevation: 0,
           leading: IconButton(
             icon: Icon(
-              Icons.arrow_back,
+              Icons.arrow_back_ios,
               color: MyTheme.themeColor,
             ),
             onPressed: () {
@@ -129,18 +129,18 @@ class _EditProfilePageState extends State<EditProfilePage>
                       isLogin: true,
                     ),
                     Positioned(
-                      bottom: 30,
-                      right: 120,
+                      bottom: 35,
+                      right: 130,
                       child: Container(
                         height: 40,
                         width: 40,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           border: Border.all(
-                            width: 4,
+                            width: 2,
                             color: Theme.of(context).scaffoldBackgroundColor,
                           ),
-                          color: Colors.green,
+                          color: MyThemeData.of(context).primaryBackground,
                         ),
                         child: const Icon(
                           Icons.edit,
