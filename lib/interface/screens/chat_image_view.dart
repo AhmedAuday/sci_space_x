@@ -82,7 +82,10 @@ class _ChatImageViewState extends State<ChatImageView> {
                     child: _controller.state.value == ApiState.loading
                         ? const CircularProgressIndicator()
                         : _controller.state.value == ApiState.success
-                            ? ImageCard(images: _controller.images)
+                            ? ImageCard(
+                                images: _controller.images,
+                                user: _user,
+                              )
                             : _controller.state.value == ApiState.notFound
                                 ? const Text(
                                     "Search whatever you want.",
