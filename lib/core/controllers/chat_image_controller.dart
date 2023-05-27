@@ -11,6 +11,7 @@ import '../services/api_service.dart';
 class ChatImageController extends GetxController {
   List<ImageGenerationData> images = [];
   TextEditingController searchTextController = TextEditingController();
+  static const String initial = 'initial';
 
   var state = ApiState.notFound.obs;
 
@@ -23,7 +24,7 @@ class ChatImageController extends GetxController {
     try {
       // ['256x256', '512x512', '1024x1024']
       Map<String, dynamic> rowParams = {
-        "n": 1,
+        "n": 4,
         "size": "1024x1024",
         "prompt": query,
       };
@@ -61,4 +62,4 @@ class ChatImageController extends GetxController {
   }
 }
 
-enum ApiState { loading, success, notFound, error, rateLimitExceeded }
+enum ApiState { loading, success, notFound, error, rateLimitExceeded, initial }

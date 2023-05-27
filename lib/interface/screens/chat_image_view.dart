@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sci_space_x/interface/screens/user_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../widgets/image_card.dart';
 import '../widgets/search_text_field_widget.dart';
@@ -18,13 +19,26 @@ class ChatImageView extends StatefulWidget {
 }
 
 class _ChatImageViewState extends State<ChatImageView> {
+  late SharedPreferences _prefs;
+
   final ChatImageController _controller = ChatImageController();
   late User _user;
   @override
   void initState() {
     _user = widget._user;
+
     super.initState();
     // _controller.getGenerateImages("cat");
+  }
+
+  // Future<void> _initPrefs() async {
+  //   _prefs = await SharedPreferences.getInstance();
+  //   String savedState = _prefs.getString('imageViewState') ?? '';
+  //   _controller.state = savedState.isNotEmpty ? savedState : ApiState.initial;
+  // }
+
+  Future<void> _saveState(String state) async {
+    await _prefs.setString('imageViewState', state);
   }
 
   @override
