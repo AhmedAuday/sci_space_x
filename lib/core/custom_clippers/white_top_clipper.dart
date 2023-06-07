@@ -5,7 +5,7 @@ class WhiteTopClipper extends CustomClipper<Path> {
 
   const WhiteTopClipper({
     required this.yOffset,
-  }) : assert(yOffset != null);
+  });
 
   @override
   Path getClip(Size size) {
