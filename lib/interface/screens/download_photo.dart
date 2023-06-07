@@ -70,8 +70,7 @@ class _DownloadPhotoState extends State<DownloadPhoto> {
       message = 'An error occurred while saving the image: $e';
     }
 
-    scaffoldMessenger
-        .showSnackBar(SnackBar(content: Text(message ?? 'Unknown error')));
+    scaffoldMessenger.showSnackBar(SnackBar(content: Text(message)));
   }
 
   Route _routeToUserScreenFromr() {
