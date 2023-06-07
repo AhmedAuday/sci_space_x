@@ -12,8 +12,8 @@ class ApiService {
   static Future<List<ModelsModel>> getModels() async {
     try {
       var response = await http.get(
-        Uri.parse("$BASE_URL/models"),
-        headers: {'Authorization': 'Bearer $API_KEY'},
+        Uri.parse("$baseURL/models"),
+        headers: {'Authorization': 'Bearer $apiKey'},
       );
 
       Map jsonResponse = jsonDecode(response.body);
@@ -41,9 +41,9 @@ class ApiService {
     try {
       log("modelId $modelId");
       var response = await http.post(
-        Uri.parse("$BASE_URL/chat/completions"),
+        Uri.parse("$baseURL/chat/completions"),
         headers: {
-          'Authorization': 'Bearer $API_KEY',
+          'Authorization': 'Bearer $apiKey',
           "Content-Type": "application/json"
         },
         body: jsonEncode(
@@ -89,9 +89,9 @@ class ApiService {
     try {
       log("modelId $modelId");
       var response = await http.post(
-        Uri.parse("$BASE_URL/completions"),
+        Uri.parse("$baseURL/completions"),
         headers: {
-          'Authorization': 'Bearer $API_KEY',
+          'Authorization': 'Bearer $apiKey',
           "Content-Type": "application/json"
         },
         body: jsonEncode(
@@ -131,7 +131,7 @@ class ApiService {
   //image generator
 }
 
-String endPoint(String endPoint) => "$BASE_URL/$endPoint";
+String endPoint(String endPoint) => "$baseURL/$endPoint";
 
 Map<String, String> headerBearerOption(String token) => {
       "Content-Type": "application/json",
