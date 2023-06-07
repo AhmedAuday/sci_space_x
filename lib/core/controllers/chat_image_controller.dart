@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:convert';
@@ -34,7 +36,7 @@ class ChatImageController extends GetxController {
       final response = await http.post(
         Uri.parse(endPoint("images/generations")),
         body: encodedParams,
-        headers: headerBearerOption(API_KEY),
+        headers: headerBearerOption(apiKey),
       );
 
       if (response.statusCode == 200) {

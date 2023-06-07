@@ -5,7 +5,7 @@ class BlueTopClipper extends CustomClipper<Path> {
 
   const BlueTopClipper({
     required this.yOffset,
-  }) : assert(yOffset != null);
+  });
 
   @override
   Path getClip(Size size) {
