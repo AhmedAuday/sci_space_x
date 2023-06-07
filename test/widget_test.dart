@@ -1,30 +1,27 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:sci_space_x/main.dart';
+import 'package:sci_space_x/core/models/chat_model.dart';
+import 'package:sci_space_x/core/models/models_model.dart';
+import 'package:sci_space_x/core/services/api_service.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const SciSpaceX());
+  testWidgets('ApiService Test', (WidgetTester tester) async {
+    await tester.runAsync(() async {
+      // Arrange
+      const message = 'Hello';
+      const modelId = 'your_model_id';
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+      // Act
+      final models = await ApiService.getModels();
+      final chatModels =
+          await ApiService.sendMessageGPT(message: message, modelId: modelId);
+      final chatModels2 =
+          await ApiService.sendMessage(message: message, modelId: modelId);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+      // Assert
+      expect(models, isA<List<ModelsModel>>());
+      expect(chatModels, isA<List<ChatModel>>());
+      expect(chatModels2, isA<List<ChatModel>>());
+    });
   });
 }
