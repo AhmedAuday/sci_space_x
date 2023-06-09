@@ -21,4 +21,4 @@ class CustomClipping extends CustomClipper<Path> {
   bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
     return false;
   }
-} 
+}

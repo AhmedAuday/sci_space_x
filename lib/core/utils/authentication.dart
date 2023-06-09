@@ -20,6 +20,36 @@ class Authentication {
     );
   }
 
+// static Future<FirebaseApp> initializeFirebase() async {
+//   FirebaseApp firebaseApp = await Firebase.initializeApp();
+
+//   User? user = FirebaseAuth.instance.currentUser;
+
+//   return firebaseApp;
+// }
+
+// Future<void> handleFirebaseInitialization(BuildContext context) async {
+//   try {
+//     FirebaseApp firebaseApp = await ApiService.initializeFirebase();
+//     User? user = FirebaseAuth.instance.currentUser;
+
+//     if (user != null) {
+//       Navigator.of(context).pushReplacement(
+//         MaterialPageRoute(
+//           builder: (context) => UserInfoScreen(
+//             user: user,
+//           ),
+//         ),
+//       );
+//     } else {
+//       // Handle the case when the user is not logged in
+//     }
+//   } catch (error) {
+//     // Handle any errors that occur during Firebase initialization
+//   }
+// }
+
+//TODO for the build context error message to fix cheak this code
   static Future<FirebaseApp> initializeFirebase({
     required BuildContext context,
   }) async {
